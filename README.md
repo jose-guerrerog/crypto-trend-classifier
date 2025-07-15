@@ -1,116 +1,91 @@
-# 🪙 Crypto Trend Classifier API
+# Crypto Trend Classifier API
 
-A simple, Dockerized REST API built with **FastAPI** and **PyTorch** that predicts the short-term trend of a cryptocurrency (either `"UP"` or `"DOWN"`) based on 5 input features.
+A simple REST API that predicts if a cryptocurrency will go **UP** or **DOWN** using 5 input features.
 
-📍 **Live Demo:**  
-👉 [https://crypto-trend-classifier.onrender.com/docs](https://crypto-trend-classifier.onrender.com/docs)
+**Live Demo:** https://crypto-trend-classifier.onrender.com/docs
 
----
+## Features
 
-## 🚀 Features
+- Predicts crypto trends: "UP" or "DOWN"
+- Built with FastAPI and PyTorch
+- Dockerized and ready to deploy
+- Interactive API documentation
 
-- 🔎 Takes 5 numerical features as input
-- 📈 Returns trend prediction: `"UP"` or `"DOWN"`
-- 🧠 Powered by a PyTorch neural network
-- ⚡ FastAPI backend with Swagger docs
-- 🐳 Fully Dockerized
-- 🌐 Deployed on Render
+## Project Structure
 
----
-
-## 📁 Project Structure
-
-```bash
+```
 crypto-trend-classifier/
-├── data/                     # CSV or input feature data
+├── data/
 │   └── btcusdt_1h.csv
-├── notebooks/                # EDA and training exploration
+├── notebooks/
 │   └── eda.ipynb
 ├── src/
 │   ├── api/
-│   │   ├── main.py           # FastAPI app
+│   │   └── main.py
 │   ├── models/
-│   │   └── crypto_classifier.pth  # Trained PyTorch model
-│   ├── model.py              # CryptoClassifier model definition
-│   └── data_loader.py        # (Optional) Feature/data utilities
+│   │   └── crypto_classifier.pth
+│   ├── model.py
+│   └── data_loader.py
 ├── Dockerfile
 ├── requirements.txt
-├── README.md
-└── .gitignore
-📦 Requirements
-Python 3.10+
+└── README.md
+```
 
-Install dependencies with:
+## Installation
 
-bash
-Copy
-Edit
+```bash
 pip install -r requirements.txt
-Dependencies include:
+```
 
-fastapi
+## Usage
 
-uvicorn
+Send a POST request to `/predict` with 5 features:
 
-torch
-
-pydantic
-
-🧪 Example Usage
-Request
-http
-Copy
-Edit
-POST /predict
-Content-Type: application/json
-
+```json
 {
   "features": [0.005, 10940.0, 10980.0, 10850.0, 10910.0]
 }
-Response
-json
-Copy
-Edit
+```
+
+**The 5 features represent:**
+1. **Price change percentage** (0.005) - Percentage change in price
+2. **Open price** (10940.0) - Opening price of the time period
+3. **High price** (10980.0) - Highest price during the time period
+4. **Low price** (10850.0) - Lowest price during the time period
+5. **Close price** (10910.0) - Closing price of the time period
+
+Response:
+```json
 {
   "prediction": "UP"
 }
-Try it live at 👉 /docs Swagger UI.
+```
 
-🐳 Run Locally with Docker
-Build the image
-bash
-Copy
-Edit
+## Run Locally
+
+**With Docker:**
+```bash
 docker build -t crypto-classifier-api .
-Run the container
-bash
-Copy
-Edit
-docker run -d -p 8000:8000 crypto-classifier-api
-Then open http://127.0.0.1:8000/docs in your browser.
+docker run -p 8000:8000 crypto-classifier-api
+```
 
-🌍 Deployment Options
-✅ Render (Live Now)
-Your app is live at:
-🔗 https://crypto-trend-classifier.onrender.com/docs
+**Without Docker:**
+```bash
+cd src/api
+uvicorn main:app --reload --port 8000
+```
 
-To deploy:
+Open http://127.0.0.1:8000/docs in your browser.
 
-Push project to GitHub
+## Deployment
 
-Create a new Web Service on Render
+The app is deployed on Render. To deploy your own:
 
-Use Docker as the deployment method
+1. Push to GitHub
+2. Create a new Web Service on Render
+3. Use Docker deployment
+4. Set port to 8000
 
-Set the port to 8000
+## Model
 
-Done! 🚀
-
-🧠 Model Training
-The model was trained using PyTorch (in a notebook or script) and saved with:
-
-python
-Copy
-Edit
-torch.save(model.state_dict(), "crypto_classifier.pth")
-This model is then loaded inside the FastAPI app to serve predictions.
+The PyTorch model is trained and saved as `crypto_classifier.pth`. It takes 5 numerical features and predicts the trend direction.
