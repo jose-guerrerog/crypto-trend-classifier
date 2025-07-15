@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy source files
 COPY ./src /app/src
-COPY ./src/model.pth /app/src/model.pth 
+COPY ./src/models/crypto_classifier.pth /app/src/models/crypto_classifier.pth
 
 # Install dependencies
 COPY requirements.txt .
